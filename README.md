@@ -1,15 +1,17 @@
 ## HyperDB ##
-Contributors: matt, andy, ryan, mdawaffe, vnsavage, automattic
-Tags: mysql, scaling, performance, availability, WordPress.com
-Requires at least: 2.3
-Tested up to: 3.3
-Stable tag: trunk
+
+ * Contributors: matt, andy, ryan, mdawaffe, vnsavage, automattic
+ * Tags: mysql, scaling, performance, availability, WordPress.com
+ * Requires at least: 2.3
+ * Tested up to: 3.3
+ * Stable tag: trunk
 
 HyperDB is an advanced database class that supports replication, failover, load balancing, and partitioning.
 
 ## Description ##
 
 HyperDB is a very advanced database class that replaces a few of the WordPress built-in database functions. The main differences are:
+
  * HyperDB can be connect to an arbitrary number of database servers,
  * HyperDB inspects each query to determine the appropriate database.
 
