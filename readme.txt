@@ -70,6 +70,9 @@ One way HyperDB differs from WPDB is that HyperDB does not attempt to connect to
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix PHP Notices
+
 = 1.1 =
 * Extended callbacks functionality
 * Added connection error callback
