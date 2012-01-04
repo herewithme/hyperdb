@@ -10,19 +10,19 @@ HyperDB is an advanced database class that supports replication, failover, load 
 ## Description ##
 
 HyperDB is a very advanced database class that replaces a few of the WordPress built-in database functions. The main differences are:
-* HyperDB can be connect to an arbitrary number of database servers,
-* HyperDB inspects each query to determine the appropriate database.
+ * HyperDB can be connect to an arbitrary number of database servers,
+ * HyperDB inspects each query to determine the appropriate database.
 
 It supports:
 
-* Read and write servers (replication)
-* Configurable priority for reading and writing
-* Local and remote datacenters
-* Private and public networks
-* Different tables on different databases/hosts
-* Smart post-write master reads
-* Failover for downed host
-* Advanced statistics for profiling
+ * Read and write servers (replication)
+ * Configurable priority for reading and writing
+ * Local and remote datacenters
+ * Private and public networks
+ * Different tables on different databases/hosts
+ * Smart post-write master reads
+ * Failover for downed host
+ * Advanced statistics for profiling
 
 It is based on the code currently used in production on WordPress.com with many MySQL servers spanning multiple datacenters.
 
@@ -71,25 +71,27 @@ One way HyperDB differs from WPDB is that HyperDB does not attempt to connect to
 ## Changelog ##
 
 = 1.1 =
-* Extended callbacks functionality
-* Added connection error callback
-* Added replication lag detection support
+
+ * Extended callbacks functionality
+ * Added connection error callback
+ * Added replication lag detection support
 
 = 1.0 =
-* Removed support for WPMU and BackPress.
-* New class with inheritance: hyperdb extends wpdb.
-* New instantiation scheme: $wpdb = new hyperdb(); then include config. No more $db_* globals.
-* New configuration file name (db-config.php) and logic for locating it. (ABSPATH, dirname(ABSPATH), or pre-defined)
-* Added fallback to wpdb in case database config not found.
-* Renamed servers to databases in config in an attempt to reduce ambiguity.
-* Added config interface functions to hyperdb: add_database, add_table, add_callback.
-* Refactored db_server array to simplify finding a server.
-* Removed native support for datacenters and partitions. The same effects are accomplished by read/write parameters and dataset names.
-* Removed preg pattern support from $db_tables. Use callbacks instead.
-* Removed delay between connection retries and avoid immediate retry of same server when others are available to try.
-* Added connection stats.
-* Added save_query_callback for custom debug logging.
-* Refined SRTM granularity. Now only send reads to masters when the written table is involved.
-* Improved connection reuse logic and added mysql_ping to recover from "server has gone away".
-* Added min_tries to configure the minimum number of connection attempts before bailing.
-* Added WPDB_PATH constant. Define this if you'd rather not use ABSPATH . WPINC . '/wp-db.php'.
+
+ * Removed support for WPMU and BackPress.
+ * New class with inheritance: hyperdb extends wpdb.
+ * New instantiation scheme: $wpdb = new hyperdb(); then include config. No more $db_ * globals.
+ * New configuration file name (db-config.php) and logic for locating it. (ABSPATH, dirname(ABSPATH), or pre-defined)
+ * Added fallback to wpdb in case database config not found.
+ * Renamed servers to databases in config in an attempt to reduce ambiguity.
+ * Added config interface functions to hyperdb: add_database, add_table, add_callback.
+ * Refactored db_server array to simplify finding a server.
+ * Removed native support for datacenters and partitions. The same effects are accomplished by read/write parameters and dataset names.
+ * Removed preg pattern support from $db_tables. Use callbacks instead.
+ * Removed delay between connection retries and avoid immediate retry of same server when others are available to try.
+ * Added connection stats.
+ * Added save_query_callback for custom debug logging.
+ * Refined SRTM granularity. Now only send reads to masters when the written table is involved.
+ * Improved connection reuse logic and added mysql_ping to recover from "server has gone away".
+ * Added min_tries to configure the minimum number of connection attempts before bailing.
+ * Added WPDB_PATH constant. Define this if you'd rather not use ABSPATH . WPINC . '/wp-db.php'.
