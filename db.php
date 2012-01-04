@@ -313,7 +313,7 @@ class hyperdb extends wpdb {
 	 * of them returns something other than null.
 	 */
 	function run_callbacks( $group, $args = null) {
-		if ( !is_array( $this->hyper_callbacks[ $group ] ) )
+		if ( !isset($this->hyper_callbacks[ $group ]) || !is_array( $this->hyper_callbacks[ $group ] ) )
 			return null;
 
 		if ( !isset($args) ) {
@@ -385,7 +385,7 @@ class hyperdb extends wpdb {
 			$this->dataset = $dataset;
 
 		// Determine whether the query must be sent to the master (a writable server)
-		if ( $use_master || $this->srtm === true || isset($this->srtm[$this->table]) ) {
+		if ( isset($use_master) || $this->srtm === true || isset($this->srtm[$this->table]) ) {
 			$use_master = true;
 		} elseif ( $is_write = $this->is_write_query($query) ) {
 			$use_master = true;
@@ -411,7 +411,7 @@ class hyperdb extends wpdb {
 		}
 
 		// Try to reuse an existing connection
-		while ( is_resource($this->dbhs[$dbhname]) ) {
+		while ( isset($this->dbhs[$dbhname]) && is_resource($this->dbhs[$dbhname]) ) {
 			// Find the connection for incrementing counters
 			foreach ( array_keys($this->db_connections) as $i )
 				if ( $this->db_connections[$i]['dbhname'] == $dbhname )
@@ -449,13 +449,16 @@ class hyperdb extends wpdb {
 				$this->disconnect($dbhname);
 				break;
 			}
-
+			
+			if ( !isset($conn['queries']) )
+				$conn['queries'] = 0;
+			
 			++$conn['queries'];
 
 			return $this->dbhs[$dbhname];
 		}
 
-		if ( $this->write && defined( "MASTER_DB_DEAD" ) ) {
+		if ( isset($this->write) && defined( "MASTER_DB_DEAD" ) ) {
 			return $this->bail("We're updating the database, please try back in 5 minutes. If you are posting to your blog please hit the refresh button on your browser in a few minutes to post the data again. It will be posted as soon as the database is back online again.");
 		}
 
@@ -501,7 +504,7 @@ class hyperdb extends wpdb {
 				// $host, $user, $password, $name, $read, $write [, $lag_threshold, $connect_function, $timeout ]
 				extract($this->hyper_servers[$dataset][$operation][$group][$key], EXTR_OVERWRITE);
 
-				list($host, $port) = explode(':', $host);
+				@list($host, $port) = explode(':', $host);
 
 				// Split host:port into $host and $port
 				if ( strpos($host, ':') )
@@ -637,7 +640,9 @@ s', 'lag');
 
 			break;
 		} while ( true );
-
+		
+		if ( !isset($charset) ) $charset = null;
+		if ( !isset($collate) ) $collate = null;
 		$this->set_charset($this->dbhs[$dbhname], $charset, $collate);
 
 		$this->dbh = $this->dbhs[$dbhname]; // needed by $wpdb->_real_escape()
